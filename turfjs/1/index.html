@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advance spatial operation</title>
+
+    <!-- leaflet css  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .leaflet-popup-content {
+            width: 600px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+
+</html>
+
+<!-- leaflet js  -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+<script src="./data/nepal-districts.js"></script>
+<script src="./data/nepal-districts-hq.js"></script>
+
+
+
+<script>
+    // Map initialization 
+    var map = L.map('map').setView([28.3949, 84.1240], 8);
+
+    //osm layer
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
+
+    var nepalDistrict = L.geoJSON(nepalGeoJsonData, {
+        onEachFeature: function (feature, layer) {
+            area = (turf.area(feature) / 1000000).toFixed(2);
+            center_lat = turf.center(feature).geometry.coordinates[1] - 9953
+            center_long = turf.center(feature).geometry.coordinates[0] - 22286
+			console.log(center_lat + " " + center_long)
+            bbox = turf.bbox(feature).toString();
+            layer.bindPopup(`<b>Area: </b> ${area} </br> <b>Center(x,y): </b> (${center_long, center_lat}) </br> <b>Bbox: </b> [${bbox}]`)
+        }
+    });
+
+
+    nepalDistrict.addTo(map)
+
+</script>
