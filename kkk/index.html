@@ -1,0 +1,169 @@
+<!DOCTYPE html><html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <style>
+
+        div {
+           
+        }
+
+        #map {
+            height: 100px;
+            height: 100%;
+            top: -1000px;
+            position: relative;
+            z-index:0;
+            
+        }
+
+        .upStuff {
+            display: none;
+        }
+    </style>
+    <style>
+        .c-button {
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: #4676D7;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 16px;
+            z-index: 1;
+            position: relative;
+            top: 50px;
+            left: 40px;
+        }
+
+        canvas {
+            z-index: 1;
+            cursor: crosshair;
+            border: 1px solid #000000;
+        }
+    </style>
+    <style>
+        body {
+            margin: 0px;
+            background-color: #f1f1f1;
+        }
+
+        a {
+            position: absolute;
+            
+            z-index: -1;
+        }
+
+        body, html {
+            width: 100%;
+            height: 95%;
+            padding: 0;
+            margin: 0;
+            font-family: Arial;
+        }
+    </style>
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+
+
+
+
+    <title>Leaflet</title>
+</head>
+
+
+                     <body>
+                         <canvas id="canvas" width="1500" height="1000"></canvas>
+
+
+                         <script>
+                             //Canvas
+                             const canvas = document.getElementById('canvas');
+                             const ctx = canvas.getContext('2d');
+                             //Variables
+                             let canvasx = canvas.offsetLeft;
+                             let canvasy = canvas.offsetTop;
+                             let last_mousex = 0;
+                             let last_mousey = 0;
+                             let mousex = 0;
+                             let mousey = 0;
+                             let mousedown = false;
+
+                             //Mousedown
+                             canvas.onmousedown = ({
+                                 clientX,
+                                 clientY
+                             }) => {
+                                 last_mousex = parseInt(clientX - canvasx);
+                                 last_mousey = parseInt(clientY - canvasy);
+                                 mousedown = true;
+                             };
+
+                             //Mouseup
+                             canvas.onmouseup = () => mousedown = false;
+
+
+                             //Mousemove
+
+                             canvas.onmousemove = ({
+                                 clientX,
+                                 clientY
+                             }) => {
+                                 mousex = parseInt(clientX - canvasx);
+                                 mousey = parseInt(clientY - canvasy);
+                                 if (mousedown) {
+                                     ctx.clearRect(0, 0, canvas.width, canvas.height); //clear canvas
+                                     ctx.beginPath();
+                                     const width = mousex - last_mousex;
+                                     const height = mousey - last_mousey;
+                                     ctx.rect(last_mousex, last_mousey, width, height);
+                                     ctx.strokeStyle = 'black';
+                                     ctx.lineWidth = 10;
+                                     ctx.stroke();
+                                     ctx.classList.add("a");
+                                 }
+                             };
+                         </script>
+
+
+
+
+
+
+
+                         <div id="map" class="s"><input type="button" class="c-button" value=" Нажми меня нежно "></div>
+
+
+
+
+
+
+                         <script id="del" src="js/leaflet.js"></script>
+                         <script src="js/leaflet.hash.js"></script>
+
+                         <script src="js/require.js"></script>
+                         <!-- <script src="js/leaflet.spin.js"></script> -->
+                         <script src="js/mapSetup.js"></script>
+                         <script src="js/script.js"></script>
+                         <script src="js/knopka.js"></script> 
+                         
+
+                         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+                        
+
+
+
+                        <script>
+                            var a = document.querySelector('.c-button');
+                            a.onclick = function () {
+                                var mapp = document.querySelector('#map');
+                                mapp.style.zIndex= "-1";
+                               
+                            }
+
+</script>
+
+
+
+                     </body></html>
